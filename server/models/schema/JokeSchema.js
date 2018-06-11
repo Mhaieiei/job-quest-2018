@@ -1,15 +1,19 @@
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+      Schema = mongoose.Schema,
+      autoIncrement = require('mongoose-auto-increment');
 
-const Schema = mongoose.Schema;
-
+autoIncrement.initialize(mongoose.connection);
 const JokeSchema = new Schema({
-  jID: String,
   jDes: String,
-  jStatus: String,
+  jStatus: Boolean, //true:like, false:dislike
 });
 
-const jokeSchema = mongoose.model('joke', JokeSchema);
+JokeSchema.plugin(autoIncrement.plugin,{
+  model: 'Joke',
+  startAt: 0,
+});
+const Joke = mongoose.model('Joke', JokeSchema);
 
 // Export the model
-export default jokeSchema;
+module.exports = Joke;

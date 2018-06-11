@@ -5,13 +5,14 @@ var parser    = require('body-parser');
 var path      = require('path'); //path
 var mongoose  = require('mongoose');
 var jwtExpress = require('express-jwt');
+var dotenv = require('dotenv');
 
-
+dotenv.config();
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 var app       = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:890-uiop@ds149960.mlab.com:49960/takemetourtest');
+mongoose.connect(process.env.MONGO_URL);
 //connect to mongodb
 mongoose.connection.once('connected',function(err){
     if(err) {
@@ -23,7 +24,7 @@ mongoose.connection.once('connected',function(err){
 
 
 //Uses+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-app.use(jwtExpress({ secret: 'uiop890abc' }).unless({ path: ['/', '/login', '/register'] }));
+app.use(jwtExpress({ secret: process.env.JWT_SECRET_KEY }).unless({ path: [/^\/.*/] }));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -43,7 +44,7 @@ require('./routes')(app);
 // });
 
 //Create-server++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-const port = process.env.PORT || 5000;  
+const port = process.env.PORT;  
 app.listen(port, () => {
   console.log('Connected & Listem to port', port)
 })

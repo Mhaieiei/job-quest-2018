@@ -34,7 +34,7 @@ module.exports = {
         username,
         id: user.id,
       };
-      const token = jwt.sign(profile, 'uiop890abc', { expiresIn: 60 * 60 * 5 });
+      const token = jwt.sign(profile, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 60 * 5 });
       return res.json({ username, token });
     })
     .catch(err => res.send(err));

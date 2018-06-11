@@ -4,6 +4,7 @@ var express   = require('express');
 var parser    = require('body-parser');
 var path      = require('path'); //path
 var mongoose  = require('mongoose');
+var jwtExpress = require('express-jwt');
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -22,8 +23,8 @@ mongoose.connection.once('connected',function(err){
 
 
 //Uses+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+app.use(jwtExpress({ secret: 'uiop890abc' }).unless({ path: ['/', '/login', '/register'] }));
 
-app.use(express.static(path.join(__dirname, './public')));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

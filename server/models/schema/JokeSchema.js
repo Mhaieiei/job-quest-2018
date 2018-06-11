@@ -6,7 +6,7 @@ const mongoose = require('mongoose'),
 autoIncrement.initialize(mongoose.connection);
 const JokeSchema = new Schema({
   jDes: String,
-  jStatus: Boolean, //true:like, false:dislike
+  jLikeNo: Number
 });
 
 JokeSchema.plugin(autoIncrement.plugin,{

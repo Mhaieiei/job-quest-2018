@@ -18,7 +18,10 @@ module.exports = {
 
   getJokeByID: (req, res) => {
     Joke.findById(req.params.id)
-      .then(jokes => res.send(jokes))
+      .then(jokes => {
+        if(jokes) res.send(jokes)
+        res.send('this joke is not exist');
+      })
       .catch(err => res.send(err));
   },
 
